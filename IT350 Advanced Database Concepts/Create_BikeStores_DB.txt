@@ -1,6 +1,6 @@
 /*
 --------------------------------------------------------------------
-Â© 2017 sqlservertutorial.net All Rights Reserved
+Ã‚Â© 2017 sqlservertutorial.net All Rights Reserved
 --------------------------------------------------------------------
 Name   : BikeStores
 Version: 1.0

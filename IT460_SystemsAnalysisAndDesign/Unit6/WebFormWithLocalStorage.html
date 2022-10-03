@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Give me all your personal information.  No questions!</title>
+    <style>
+        * {box-sizing: border-box;}
+    	div {padding: 10px; background-color: #f6f6f6; overflow: hidden;}
+    	input[type=text], textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+		 input[type=button]{ 
+			 width: auto;
+			 float: right;
+			 cursor: pointer;
+			 padding: 7px;
+		 }
+    </style>
+</head>
+<body>
+    <div>
+        <div>
+            <input type="text" id="txtFullName" placeholder="enter full name" />
+        </div>
+		 <div>
+            <input type="text" id="txtSocial" placeholder="enter social security number" />
+        </div>
+        <div>
+            <input type="text" id="txtAge" placeholder="enter age" />
+        </div>
+        <div>
+            <input type="text" id="txtEmail" placeholder="enter email address" />
+        </div>
+        <div>
+            <select id="selectCountry">
+                <option selected value="">* select your country *</option>
+                <option value="USA">USA</option>
+                <option value="Not USA">Not USA</option>
+            </select>
+        </div>
+        <div>
+            <textarea id="userNote" name="userNote" placeholder="Optional note ..." style="height:100px"></textarea>
+        </div>
+        <div>
+            <input type="button" id="button" value="Save to file" onclick="saveFile()" />
+        </div>
+    </div>
+</body>
+<script>
+    	 let saveFile = () => {
+    	
+		 const FullName = document.getElementById('txtFullName');
+		 const Social = document.getElementById('txtSocial');
+		 const Age = document.getElementById('txtAge');
+		 const Email = document.getElementById('txtEmail');
+		 const HomeCountry = document.getElementById('selectCountry');
+		 const UserNote = document.getElementById('userNote');
+			 
+		 if(FullName.value == "Alex") {
+			 nameMap = "01";
+		 }
+		 else {
+			 nameMap = FullName.value;
+		 }
+			 
+		 if(Social.value == "234") {
+			socialMap = "01"; 
+		 }
+		 else {
+			socialMap = Social.value;
+		 }
+       
+       let data = 
+       	'\r Name: ' + nameMap + ' \r\n ' + 
+			'Social: ' + Social.value + ' \r\n ' +
+         'Age: ' + Age.value + ' \r\n ' + 
+         'Email: ' + Email.value + ' \r\n ' + 
+         'Country: ' + HomeCountry.value + ' \r\n ' + 
+         'Message: ' + UserNote.value;
+        
+        const textToBLOB = new Blob([data], { type: 'text/plain' });
+        const sFileName = 'formResponse.txt';
+
+        let newLink = document.createElement("a");
+        newLink.download = sFileName;
+
+        if (window.webkitURL != null) {
+            newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+        }
+        else {
+            newLink.href = window.URL.createObjectURL(textToBLOB);
+            newLink.style.display = "none";
+            document.body.appendChild(newLink);
+        }
+
+        newLink.click(); 
+    }
+</script>
+</html>

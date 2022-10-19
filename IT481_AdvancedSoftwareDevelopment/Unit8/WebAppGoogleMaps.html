@@ -70,7 +70,7 @@
 			var zip = document.getElementById("zip").value.replace(" ","_");
 			
 			var fullAddress = address + "%20" + city + "%20" + state  + "%20" + zip;
-			var getGeoCode = "https://maps.googleapis.com/maps/api/geocode/json?address="+fullAddress+"&key=AIzaSyC6Gb_Dtv00W4QWtFoApeKvAH9Wr5z2Qw8"
+			var getGeoCode = "https://maps.googleapis.com/maps/api/geocode/json?address="+fullAddress+"&key=[INSERT_API_KEY]"
 			
 			fetch(getGeoCode)
 		    	.then(response => response.json())
@@ -121,6 +121,6 @@
 			})
 		}
 	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6Gb_Dtv00W4QWtFoApeKvAH9Wr5z2Qw8&callback=myMap"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=[INSERT_API_KEY]&callback=myMap"></script>
 </body>
 </html>

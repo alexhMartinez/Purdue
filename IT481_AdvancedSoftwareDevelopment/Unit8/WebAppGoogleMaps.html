@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<h1>Google Maps Navigator</h1>
+    <style>
+        * {box-sizing: border-box;}
+    	input[type=text ], textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+		input[type=radio ], textarea, select {
+		 width: auto;
+		 float: center;
+		 cursor: pointer;
+		 padding: 3px;
+		}
+	 	button, textarea, select { 
+		 width: auto;
+		 float: left;
+		 cursor: pointer;
+		 padding: 7px;
+		 border: 3px solid #ccc;
+	 	}
+    </style>
+</header>
+<br><br>
+<body>
+	
+	<h2>Enter your information:</h2>
+	
+	<label for="address">Address</label>
+		<input type="text" id="address" name="address"><br>
+		
+	<label for="city">City</label>
+		<input type="text" id="city" name="city"><br>
+		
+	<label for="state">State</label>
+		<input type="text" id="state" name="state"><br>
+		
+	<label for="zip">Zip Code</label>
+		<input type="text" id="zip" name="zip"><br><br>
+	<button onclick="myMap()">Locate</button><br><br>
+	
+	<br>
+	<input type="radio" id="road" name="layer" value="road" onclick="myMap()">
+		<label for="road">RoadMap</label>
+		
+	<input type="radio" id="sat" name="layer" value="sat" onclick="myMap()">
+		<label for="sat">Satellite</label>
+		
+	<input type="radio" id="hybrid" name="layer" value="hybrid" onclick="myMap()">
+		<label for="hybrid">Hybrid</label>
+		
+	<input type="radio" id="terrain" name="layer" value="terrain" onclick="myMap()">
+		<label for="terrain">Terrain</label>
+		
+	<br><br>
+
+	<div id="googleMap" style="width:100%;height:400px;"></div>
+
+	<script>
+		
+		function myMap() {
+			
+			var address = document.getElementById("address").value.replace(" ","_");
+			var city = document.getElementById("city").value.replace(" ","_");
+			var state = document.getElementById("state").value.replace(" ","_");
+			var zip = document.getElementById("zip").value.replace(" ","_");
+			
+			var fullAddress = address + "%20" + city + "%20" + state  + "%20" + zip;
+			var getGeoCode = "https://maps.googleapis.com/maps/api/geocode/json?address="+fullAddress+"&key=AIzaSyC6Gb_Dtv00W4QWtFoApeKvAH9Wr5z2Qw8"
+			
+			fetch(getGeoCode)
+		    	.then(response => response.json())
+		    	.then(data => {
+		      	  var latitude = data.results[0].geometry.location.lat;
+		      	  var longitude = data.results[0].geometry.location.lng;
+		    	
+			
+			/*
+			 * define way point using lat long from user search
+			 */
+				// var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+				var myLatlng = new google.maps.LatLng(latitude,longitude);
+
+			var marker = new google.maps.Marker({
+			    position: myLatlng,
+				title: "mysearch"
+			});
+			
+			/*
+			 * build map view with specified user terrain
+			 */
+			if (document.getElementById("road").checked){
+				mapT = google.maps.MapTypeId.ROADMAP; 
+			}
+			else if (document.getElementById("sat").checked){
+				mapT = google.maps.MapTypeId.SATELLITE; 
+			}
+			else if (document.getElementById("hybrid").checked){
+				mapT = google.maps.MapTypeId.HYBRID; 
+			}
+			else if (document.getElementById("terrain").checked){
+				mapT = google.maps.MapTypeId.TERRAIN; 
+			}
+			else {
+				mapT = google.maps.MapTypeId.ROADMAP; 
+			}
+			
+			var mapProp= {
+  		  		zoom:10,
+				center: myLatlng,
+		  		// ROADMAP, SATELLITE, HYBRID, TERRAIN
+		  		mapTypeId: mapT,
+				mapTypeControl: false
+			};
+			var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+			marker.setMap(map);
+			})
+		}
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6Gb_Dtv00W4QWtFoApeKvAH9Wr5z2Qw8&callback=myMap"></script>
+</body>
+</html>
